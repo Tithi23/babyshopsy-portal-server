@@ -18,6 +18,7 @@ admin.initializeApp({
         privateKeyId: process.env.PRIVATE_KEY_ID,
         tokenUri: process.env.TOKEN_URI,
         clientId: process.env.CLIENT_ID,
+        authUri: process.env.AUTH_URI,
         projectId: process.env.FIREBASE_PROJECT_ID, // I get no error here
         clientEmail: process.env.FIREBASE_CLIENT_EMAIL, // I get no error here
         privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n') // NOW THIS WORKS!!!
@@ -78,13 +79,13 @@ async function run() {
         })
 
 
+        // customer user
+
 
         app.get('/customers', verifyToken, async (req, res) => {
             const email = req.query.email;
             const date = new Date(req.query.date).toLocaleDateString();
-
-            const query = { email: email, date: date }
-
+            const query = { email: email, date: date };
             const cursor = customersCollection.find(query);
             const orders = await cursor.toArray();
             res.json(orders);
